@@ -2,12 +2,13 @@ const router = require('express').Router();
 const { Tag, Product, ProductTag } = require('../../models');
 
 router.get('/', async (req, res) => {
-  try { 
+  try {
     const tagData = await Tag.findAll(
-      {include: [Product]
+      {
+        include: [Product]
       });
     res.status(200).json(tagData)
-  } catch(err) {
+  } catch (err) {
     res.status(500).json(err)
   }
 });
@@ -18,11 +19,11 @@ router.get('/:id', async (req, res) => {
       include: [Product]
     })
     if (!tagOne) {
-      res.status(404).json({message: "No tag found with that id"});
+      res.status(404).json({ message: "No tag found with that id" });
       return
     }
     res.status(200).json(tagOne);
-  } catch(err) {
+  } catch (err) {
     res.status(400).json(err)
   }
 });
@@ -39,17 +40,17 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const changeTag = await Tag.update(req.body, {
-        where: {
-          id: req.params.id
-        }
+      where: {
+        id: req.params.id
+      }
     });
     if (!changeTag) {
-      res.status(404).json({message: "No tag found with that id"});
+      res.status(404).json({ message: "No tag found with that id" });
       return
     }
     res.status(200).json(changeTag)
-  
-  } catch(err) {
+
+  } catch (err) {
     res.status(500).json(err);
   }
 });
